@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>栩苑文理｜國二升國三暑假招生 Landing Page</title>
+    <meta name="description" content="免費會考重點測驗，查看孩子暑假應優先複習的方向，索取完整分析與考前必勝題庫包。">
+    <meta name="keywords" content="國二升國三,會考,暑假讀書計畫,模考,栩苑文理">
+    <meta property="og:title" content="國二升國三｜開學第一次模考你能拿幾分？">
+    <meta property="og:description" content="挑戰各科會考重點，立即查看孩子暑假應優先複習的方向。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/hero-student.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="./">
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "栩苑文理",
+        "description": "國二升國三暑假會考重點測驗與讀書計畫索取頁"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="page-loader" aria-hidden="true"></div>
+    <main>
+      <section class="hero-section reveal" aria-label="國二升國三開學第一次模考">
+        <div class="hero-inner">
+          <img class="hero-art" src="assets/hero-student.png" width="1991" height="789" alt="國二升國三開學第一次模考，你能拿幾分？">
+          <div class="hero-mobile-copy" aria-hidden="true">
+            <p class="hero-subtitle">挑戰 15 題各科會考重點，立即查看孩子暑假應優先複習的方向！</p>
+            <div class="hero-note">
+              <p>先別急著買參考書：<strong>10分鐘</strong>測驗，快速了解<strong>常錯觀念</strong>。</p>
+            </div>
+          </div>
+          <button class="hero-hotspot js-scroll" data-target="#quiz-section" type="button" aria-label="立即開始測驗">立即開始測驗</button>
+        </div>
+      </section>
+
+      <section class="pain-section paper-bg reveal" aria-labelledby="pain-title">
+        <div class="section-inner">
+          <h2 id="pain-title">家長是不是也遇到這些困擾？</h2>
+          <div class="pain-grid" aria-label="家長常見困擾">
+            <article class="pain-card">
+              <p>孩子每天都有念書<br>成績卻沒明顯提升</p>
+            </article>
+            <article class="pain-card">
+              <p>買很多參考書<br>孩子根本不想翻</p>
+            </article>
+            <article class="pain-card">
+              <p>不知道暑假該先讀<br>哪一科、哪一章節</p>
+            </article>
+            <article class="pain-card">
+              <p>素養題越來越多<br>不知道如何準備</p>
+            </article>
+            <article class="pain-card">
+              <p>第一次模考怕直接落後<br>影響會考信心</p>
+            </article>
+          </div>
+          <p class="direction-copy">暑假不是<span>讀越多越好</span>，而是<span>讀對方向</span>！</p>
+        </div>
+      </section>
+
+      <section id="quiz-section" class="quiz-section reveal" aria-labelledby="quiz-title">
+        <div class="section-inner quiz-layout">
+          <div class="quiz-copy">
+            <p class="eyebrow">開始挑戰！</p>
+            <h2 id="quiz-title"><span>10題</span>各科會考重點測驗</h2>
+            <p class="quiz-meta">精選題型，測驗時間約10分鐘</p>
+            <div class="subject-tabs" aria-label="測驗科目">
+              <button class="subject is-active" type="button">
+                <img src="assets/icon-math-orange.png" width="661" height="653" alt="">
+                數學
+              </button>
+              <button class="subject" type="button">
+                <img src="assets/icon-science-green-circle.png" width="3153" height="3441" alt="">
+                自然
+              </button>
+            </div>
+            <div class="progress-block">
+              <div class="progress-label">
+                <span>目前進度</span>
+                <strong id="progressText">10%</strong>
+              </div>
+              <progress id="quizProgress" value="10" max="100">10%</progress>
+              <p>模擬會考測驗時間，剩餘時間：約10分鐘</p>
+            </div>
+          </div>
+          <form class="quiz-card" id="quizForm">
+            <div class="quiz-topline">
+              <span id="quizSubject">數學</span>
+              <strong id="quizCounter">第1題 / 共10題</strong>
+            </div>
+            <h3 id="questionText">若函數 y = ax² + bx - 3 的圖形通過點 (1,0) 與 (3,0)，則下列何者正確？</h3>
+            <div class="options" id="options"></div>
+            <div class="quiz-actions">
+              <button class="ghost-button" id="prevQuestion" type="button">上一題</button>
+              <button class="green-button" id="nextQuestion" type="button">下一題</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="analysis-section" class="analysis-section paper-bg reveal" aria-labelledby="analysis-title">
+        <div class="section-inner">
+          <div class="section-heading left">
+            <p class="eyebrow">初步分析完成！</p>
+            <h2 id="analysis-title">以下為部分分析摘要</h2>
+          </div>
+          <div class="analysis-grid">
+            <aside class="analysis-list">
+              <ul>
+                <li><span class="ok-mark">✓</span>學習類型分析</li>
+                <li><span class="ok-mark">✓</span>高風險科目</li>
+                <li><span class="ok-mark">✓</span>優先補強建議</li>
+                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">各科失分原因</li>
+                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">暑假必讀章節</li>
+                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">30天讀書計畫</li>
+                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">第一次模考預估</li>
+                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">老師完整建議</li>
+              </ul>
+            </aside>
+            <div class="radar-card">
+              <h3>各科能力分布（初步）</h3>
+              <div class="radar" aria-label="各科能力分布假資料">
+                <div class="radar-shape"></div>
+                <span class="axis axis-top">國文</span>
+                <span class="axis axis-right">數學</span>
+                <span class="axis axis-bottom-right">英文</span>
+                <span class="axis axis-bottom-left">自然</span>
+                <span class="axis axis-left">社會</span>
+              </div>
+              <strong class="score">65分</strong>
+            </div>
+            <div class="teacher-card">
+              <h3>老師建議優先補強</h3>
+              <article>
+                <span class="subject-chip blue">數學</span>
+                <strong>★★★★☆</strong>
+                <p>基礎觀念已有，但函數容易失分。</p>
+              </article>
+              <article>
+                <span class="subject-chip green">自然</span>
+                <strong>★★★★☆</strong>
+                <p>觀念容易混淆，跨章節整合不足。</p>
+              </article>
+              <div class="blur-lock" id="analysisLock">
+                <img src="assets/icon-lock.png" width="697" height="977" alt="">
+                <span>填寫資料取得完整報告</span>
+              </div>
+            </div>
+          </div>
+          <p class="unlock-copy">想查看完整分析與專屬暑假規劃？</p>
+        </div>
+      </section>
+
+      <section class="resource-section reveal" aria-labelledby="resource-title">
+        <div class="section-inner resource-shell">
+          <h2 id="resource-title">免費解鎖完整試題測驗<span>＋</span>考前必勝題庫包</h2>
+          <div class="resource-grid">
+            <div class="books-area">
+              <div class="book-tabs" role="tablist" aria-label="教材版本">
+                <button class="book-tab is-active" data-book="kangxuan" type="button">康軒版</button>
+                <button class="book-tab" data-book="hanlin" type="button">翰林版</button>
+                <button class="book-tab" data-book="nanyi" type="button">南一版</button>
+              </div>
+              <div class="books-row" id="booksRow">
+                <img class="selected-book" src="assets/book-kangxuan.png" width="563" height="941" alt="康軒版會考總複習講義">
+                <img src="assets/book-hanlin.png" width="538" height="941" alt="翰林版會考總複習講義">
+                <img src="assets/book-nanyi.png" width="531" height="941" alt="南一版會考總複習講義">
+              </div>
+              <ul class="benefit-list">
+                <li>完整各科分析報告</li>
+                <li>暑假必讀章節</li>
+                <li>30天讀書計畫</li>
+                <li>老師學習建議</li>
+                <li>考前必勝題庫包</li>
+              </ul>
+            </div>
+            <div class="study-plan">
+              <div class="study-plan-title">
+                <img class="calendar-icon" src="assets/icon-calendar.png" width="1254" height="1254" alt="">
+                <h3>暑假 30 堂全科衝刺計畫</h3>
+              </div>
+              <p>暑假讀書計畫預覽</p>
+              <div class="plan-tabs">
+                <button class="is-active" type="button">數學</button>
+                <button type="button">英文</button>
+                <button type="button">自然</button>
+              </div>
+              <div class="plan-table" aria-label="暑假讀書計畫預覽">
+                <div>週次</div><div>主題重點</div><div>W1</div><div>W2</div><div>W3</div><div>W4</div>
+                <div>W1</div><div>一次函數與圖形</div><div>✓</div><div>✓</div><div></div><div></div>
+                <div>W2</div><div>二次函數應用</div><div></div><div>✓</div><div>✓</div><div></div>
+                <div>W3</div><div>幾何圖形與比例</div><div></div><div></div><div>✓</div><div>✓</div>
+                <div>W4</div><div>會考整合題</div><div></div><div></div><div></div><div class="plan-more">完整8月計畫<br>解鎖完整查閱</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lead-form" class="lead-section reveal" aria-labelledby="form-title">
+        <div class="section-inner lead-card">
+          <form id="leadForm" novalidate>
+            <h2 id="form-title" class="sr-only">索取模考重點表單</h2>
+            <div class="form-grid">
+              <label>
+                <span>家長姓名</span>
+                <input name="name" type="text" placeholder="請輸入姓名" required>
+              </label>
+              <label>
+                <span>孩子年級</span>
+                <select name="grade" required>
+                  <option value="">請選擇</option>
+                  <option>國二升國三</option>
+                  <option>國一升國二</option>
+                </select>
+              </label>
+              <label>
+                <span>聯絡電話</span>
+                <input name="phone" type="tel" inputmode="numeric" placeholder="請輸入手機號碼" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input name="email" type="email" placeholder="請輸入 Email" required>
+              </label>
+              <label class="wide-field">
+                <span>目前就讀國中</span>
+                <input name="school" type="text" placeholder="請輸入目前就讀國中" required>
+              </label>
+            </div>
+            <button class="submit-button" id="submitLead" type="submit">點擊送出，索取模考重點</button>
+            <p class="privacy">
+              <img src="assets/icon-shield.png" width="1024" height="1536" alt="">
+              送出後，系統將立即寄送「暑假讀書計畫」電子檔至 Email。完整實體題本與講義，老師將盡快聯繫您安排到班領取
+            </p>
+          </form>
+          <div class="success-card" id="successCard" aria-live="polite" hidden>
+            <h3>已成功送出</h3>
+            <p>暑假讀書計畫已寄送至您的 Email。老師將於48小時內聯繫您安排領取完整資料。</p>
+            <a href="#" class="line-button">加入 LINE</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-section reveal" aria-labelledby="trust-title">
+        <div class="section-inner trust-layout">
+          <div class="testimonials">
+            <h2 id="trust-title">家長安心推薦，學生進步有感</h2>
+            <div class="testimonial-track" id="testimonialTrack">
+              <article class="testimonial is-visible">
+                <img src="assets/avatar-1.png" width="644" height="640" alt="媽媽推薦">
+                <strong>媽媽 / 王同學</strong>
+                <p>老師抓孩子弱點很精準，暑假補完基礎後，開學第一次模考進步了20多分！</p>
+              </article>
+              <article class="testimonial is-visible">
+                <img src="assets/avatar-2.png" width="644" height="639" alt="媽媽推薦">
+                <strong>媽媽 / 陳同學</strong>
+                <p>暑假規劃很明確，孩子比較知道每天要讀什麼，不會只靠感覺念書。</p>
+              </article>
+              <article class="testimonial is-visible">
+                <img src="assets/avatar-3.png" width="644" height="640" alt="媽媽推薦">
+                <strong>媽媽 / 李同學</strong>
+                <p>老師願意細講弱點，家長放心，孩子也變得比較願意面對題目。</p>
+              </article>
+            </div>
+            <div class="carousel-controls">
+              <button id="prevReview" type="button" aria-label="上一則推薦">‹</button>
+              <button id="nextReview" type="button" aria-label="下一則推薦">›</button>
+            </div>
+          </div>
+          <img class="students-photo" src="assets/photo-students.png" width="1537" height="1023" alt="老師陪同學生學習">
+        </div>
+      </section>
+
+      <section class="footer-cta reveal" aria-label="立即開始測驗取得完整分析">
+        <div class="footer-offer">
+          <img class="qr-box" src="assets/summer-badge.png" width="1000" height="1000" alt="國二升國三暑假">
+          <div>
+            <p>加入LINE<br>領取最高</p>
+            <strong>9,000元</strong>
+            <span>課程抵用券！</span>
+          </div>
+        </div>
+        <div class="footer-copy">
+          <p>與其等到一次考壞才後悔，趁現在補好基礎，開學第一次模考先一步。</p>
+          <button class="orange-button js-scroll" data-target="#quiz-section" type="button">立即開始測驗，取得完整分析</button>
+        </div>
+        <img class="footer-pencil" src="assets/deco-pencil.png" width="1024" height="1536" alt="">
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
