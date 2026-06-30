@@ -169,6 +169,39 @@ const analysisPrompt = document.querySelector("#analysisPrompt");
 const analysisPendingCopy = document.querySelector("#analysisPendingCopy");
 const teacherCardTitle = document.querySelector("#teacherCardTitle");
 const teacherIntro = document.querySelector("#teacherIntro");
+const planPreview = document.querySelector("#planPreview");
+const planTable = document.querySelector("#planTable");
+const planLock = document.querySelector("#planLock");
+
+const studyPlans = {
+  math: {
+    locked: false,
+    rows: [
+      ["W1", "一次函數與圖形", "✓", "✓", "", ""],
+      ["W2", "二次函數應用", "", "✓", "✓", ""],
+      ["W3", "幾何圖形與比例", "", "", "✓", "✓"],
+      ["W4", "會考整合題", "", "", "", "完整8月計畫<br>解鎖完整查閱"]
+    ]
+  },
+  science: {
+    locked: false,
+    rows: [
+      ["W1", "基本測量與科學方法", "✓", "✓", "", ""],
+      ["W2", "物質與能、波動與聲音", "", "✓", "✓", ""],
+      ["W3", "光的傳播與反射", "", "", "✓", "✓"],
+      ["W4", "溫度與熱量、會考整合題", "", "", "", "完整8月計畫<br>解鎖完整查閱"]
+    ]
+  },
+  other: {
+    locked: true,
+    rows: [
+      ["W1", "國文閱讀理解與文意判讀", "✓", "✓", "", ""],
+      ["W2", "英文文法、克漏字與閱讀", "", "✓", "✓", ""],
+      ["W3", "社會地理、歷史、公民整合", "", "", "✓", "✓"],
+      ["W4", "其他科目完整讀書計畫", "", "", "", "提交後解鎖<br>老師客製規劃"]
+    ]
+  }
+};
 
 function createInitialState() {
   return {
@@ -529,6 +562,37 @@ function setupBookTabs() {
   });
 }
 
+function renderStudyPlan(planKey) {
+  const plan = studyPlans[planKey] || studyPlans.math;
+  const headings = ["週次", "主題重點", "W1", "W2", "W3", "W4"];
+  const cells = [...headings, ...plan.rows.flat()];
+
+  planTable.innerHTML = "";
+  cells.forEach((cell, index) => {
+    const item = document.createElement("div");
+    if (index >= headings.length && (index - headings.length) % headings.length === headings.length - 1) {
+      item.className = "plan-more";
+    }
+    item.innerHTML = cell;
+    planTable.append(item);
+  });
+
+  planPreview.classList.toggle("is-locked", plan.locked);
+  planLock.hidden = !plan.locked;
+}
+
+function setupPlanTabs() {
+  document.querySelectorAll(".plan-tabs button").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".plan-tabs button").forEach((tab) => tab.classList.remove("is-active"));
+      button.classList.add("is-active");
+      renderStudyPlan(button.dataset.plan || "math");
+    });
+  });
+
+  renderStudyPlan("math");
+}
+
 function renderTestimonials() {
   const items = Array.from(document.querySelectorAll(".testimonial"));
   if (window.matchMedia("(max-width: 720px)").matches) {
@@ -562,5 +626,6 @@ leadForm.addEventListener("input", (event) => {
 setupScrollButtons();
 setupReveal();
 setupBookTabs();
+setupPlanTabs();
 setupTestimonials();
 setupSubjectTabs();
