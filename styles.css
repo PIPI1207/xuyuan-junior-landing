@@ -751,6 +751,15 @@ progress::-moz-progress-bar {
   border-color: #d4bd89;
 }
 
+.plan-tabs button {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.plan-tabs button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(79, 68, 44, 0.12);
+}
+
 .benefit-list {
   margin-top: 20px;
   display: grid;
@@ -800,6 +809,12 @@ progress::-moz-progress-bar {
   font-weight: 800;
 }
 
+.plan-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
 .plan-table {
   display: grid;
   grid-template-columns: 0.55fr 2.3fr repeat(4, 0.55fr);
@@ -831,6 +846,60 @@ progress::-moz-progress-bar {
 .plan-more {
   color: #988a71;
   font-weight: 900;
+}
+
+.plan-preview.is-locked .plan-table {
+  opacity: 0.78;
+  filter: saturate(0.82);
+}
+
+.plan-preview.is-locked .plan-table div:nth-last-child(-n + 6) {
+  filter: blur(3px);
+  color: rgba(100, 86, 61, 0.35);
+}
+
+.plan-preview.is-locked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.36);
+  backdrop-filter: blur(5px);
+  pointer-events: none;
+}
+
+.plan-lock {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 2;
+  width: min(88%, 360px);
+  transform: translateX(-50%);
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 14px 28px rgba(31, 49, 37, 0.14);
+  color: var(--green-800);
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.plan-lock strong,
+.plan-lock span {
+  display: block;
+}
+
+.plan-lock strong {
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.plan-lock span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .lead-section {
