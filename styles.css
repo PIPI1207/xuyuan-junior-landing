@@ -1024,7 +1024,8 @@ select:focus {
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: 24px;
-  align-items: center;
+  align-items: start;
+  height: auto;
 }
 
 .testimonials h2 {
@@ -1090,8 +1091,14 @@ select:focus {
 }
 
 .students-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
   border-radius: 8px;
   box-shadow: var(--soft-shadow);
+  object-fit: contain;
+  align-self: start;
 }
 
 .footer-cta {
@@ -1473,7 +1480,10 @@ select:focus {
   }
 
   .students-photo {
-    display: none;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   .footer-offer strong {
