@@ -336,6 +336,17 @@ progress::-moz-progress-bar {
   max-width: 100%;
 }
 
+.question-media {
+  margin: 0 0 22px;
+}
+
+.question-media img {
+  width: min(100%, 680px);
+  height: auto;
+  border: 1px solid rgba(31, 49, 37, 0.12);
+  border-radius: 6px;
+}
+
 .question-wrap img,
 .quiz-card img {
   max-width: 100%;
