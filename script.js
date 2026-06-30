@@ -156,6 +156,7 @@ const quizCounter = document.querySelector("#quizCounter");
 const quizSubject = document.querySelector("#quizSubject");
 const quizProgress = document.querySelector("#quizProgress");
 const progressText = document.querySelector("#progressText");
+const quizTimerText = document.querySelector("#quizTimerText");
 const prevQuestion = document.querySelector("#prevQuestion");
 const nextQuestion = document.querySelector("#nextQuestion");
 const subjectTabs = Array.from(document.querySelectorAll(".subject-tabs .subject"));
@@ -202,6 +203,10 @@ const studyPlans = {
     ]
   }
 };
+
+const quizTimerDuration = 8 * 60;
+let quizTimerStartedAt = null;
+let quizTimerInterval = null;
 
 function createInitialState() {
   return {
@@ -346,6 +351,31 @@ function updateAnalysisState(forceComplete = false) {
   analysisLock.classList.remove("is-unlocked");
 }
 
+function formatQuizTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function updateQuizTimer() {
+  if (!quizTimerText) return;
+  const elapsed = quizTimerStartedAt ? Math.floor((Date.now() - quizTimerStartedAt) / 1000) : 0;
+  const remaining = Math.max(quizTimerDuration - elapsed, 0);
+  quizTimerText.textContent = `模擬會考測驗時間，剩餘時間：${formatQuizTime(remaining)}`;
+
+  if (remaining === 0 && quizTimerInterval) {
+    clearInterval(quizTimerInterval);
+    quizTimerInterval = null;
+  }
+}
+
+function startQuizTimer() {
+  if (quizTimerStartedAt) return;
+  quizTimerStartedAt = Date.now();
+  updateQuizTimer();
+  quizTimerInterval = setInterval(updateQuizTimer, 1000);
+}
+
 function renderQuestion() {
   const questions = getQuestions();
   const currentIndex = getCurrentIndex();
@@ -379,6 +409,7 @@ function renderQuestion() {
     const label = document.createElement("label");
     label.className = "option";
     label.setAttribute("for", id);
+    label.addEventListener("click", startQuizTimer);
 
     const input = document.createElement("input");
     input.type = "radio";
@@ -634,3 +665,4 @@ setupBookTabs();
 setupPlanTabs();
 setupTestimonials();
 setupSubjectTabs();
+updateQuizTimer();
