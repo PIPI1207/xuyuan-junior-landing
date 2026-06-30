@@ -69,11 +69,14 @@
             <h2 id="quiz-title"><span>10題</span>各科會考重點測驗</h2>
             <p class="quiz-meta">精選題型，測驗時間約10分鐘</p>
             <div class="subject-tabs" aria-label="測驗科目">
-              <button class="subject is-active" type="button">
+              <button class="subject is-active" type="button" data-filter="all">
+                綜合測驗
+              </button>
+              <button class="subject" type="button" data-filter="數學">
                 <img src="assets/icon-math-orange.png" width="661" height="653" alt="">
                 數學
               </button>
-              <button class="subject" type="button">
+              <button class="subject" type="button" data-filter="自然">
                 <img src="assets/icon-science-green-circle.png" width="3153" height="3441" alt="">
                 自然
               </button>
@@ -92,7 +95,9 @@
               <span id="quizSubject">數學</span>
               <strong id="quizCounter">第1題 / 共10題</strong>
             </div>
-            <h3 id="questionText">若函數 y = ax² + bx - 3 的圖形通過點 (1,0) 與 (3,0)，則下列何者正確？</h3>
+            <div class="question-wrap overflow-x-auto">
+              <h3 id="questionText">若函數 y = ax² + bx - 3 的圖形通過點 (1,0) 與 (3,0)，則下列何者正確？</h3>
+            </div>
             <div class="options" id="options"></div>
             <div class="quiz-actions">
               <button class="ghost-button" id="prevQuestion" type="button">上一題</button>
@@ -105,49 +110,58 @@
       <section id="analysis-section" class="analysis-section paper-bg reveal" aria-labelledby="analysis-title">
         <div class="section-inner">
           <div class="section-heading left">
-            <p class="eyebrow">初步分析完成！</p>
-            <h2 id="analysis-title">以下為部分分析摘要</h2>
+            <p class="eyebrow" id="analysisEyebrow">尚未完成測驗</p>
+            <h2 id="analysis-title">完成測驗後解鎖初步分析</h2>
           </div>
           <div class="analysis-grid">
             <aside class="analysis-list">
+              <p class="analysis-pending-copy" id="analysisPendingCopy">完成上方 10 題後，系統將依照作答結果產生：</p>
               <ul>
-                <li><span class="ok-mark">✓</span>學習類型分析</li>
-                <li><span class="ok-mark">✓</span>高風險科目</li>
-                <li><span class="ok-mark">✓</span>優先補強建議</li>
-                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">各科失分原因</li>
-                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">暑假必讀章節</li>
-                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">30天讀書計畫</li>
-                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">第一次模考預估</li>
-                <li class="locked"><img src="assets/icon-lock.png" width="697" height="977" alt="">老師完整建議</li>
+                <li><span class="ok-mark">✓</span>基礎觀念</li>
+                <li><span class="ok-mark">✓</span>題意理解</li>
+                <li><span class="ok-mark">✓</span>圖表判讀</li>
+                <li><span class="ok-mark">✓</span>計算邏輯</li>
+                <li><span class="ok-mark">✓</span>跨章整合</li>
+                <li><span class="ok-mark">✓</span>作答穩定度</li>
               </ul>
+              <p class="analysis-lock-copy" id="analysisPrompt">請先完成測驗，解鎖初步分析。</p>
             </aside>
             <div class="radar-card">
-              <h3>各科能力分布（初步）</h3>
-              <div class="radar" aria-label="各科能力分布假資料">
+              <h3>六邊形能力分析</h3>
+              <div class="radar hex-radar" aria-label="六邊形能力分布">
                 <div class="radar-shape"></div>
-                <span class="axis axis-top">國文</span>
-                <span class="axis axis-right">數學</span>
-                <span class="axis axis-bottom-right">英文</span>
-                <span class="axis axis-bottom-left">自然</span>
-                <span class="axis axis-left">社會</span>
+                <span class="axis axis-top">基礎觀念</span>
+                <span class="axis axis-upper-right">題意理解</span>
+                <span class="axis axis-lower-right">圖表判讀</span>
+                <span class="axis axis-bottom">計算邏輯</span>
+                <span class="axis axis-lower-left">跨章整合</span>
+                <span class="axis axis-upper-left">作答穩定度</span>
               </div>
-              <strong class="score">65分</strong>
             </div>
             <div class="teacher-card">
-              <h3>老師建議優先補強</h3>
-              <article>
+              <h3 id="teacherCardTitle">初步分析完成</h3>
+              <p class="teacher-intro" id="teacherIntro">孩子目前較需要加強：</p>
+              <article class="analysis-result">
                 <span class="subject-chip blue">數學</span>
-                <strong>★★★★☆</strong>
-                <p>基礎觀念已有，但函數容易失分。</p>
+                <strong>題意轉換</strong>
+                <p>容易知道公式，但遇到生活情境題時，不一定能順利列式。</p>
               </article>
-              <article>
+              <article class="analysis-result">
                 <span class="subject-chip green">自然</span>
-                <strong>★★★★☆</strong>
-                <p>觀念容易混淆，跨章節整合不足。</p>
+                <strong>圖表判讀</strong>
+                <p>能理解單一觀念，但遇到表格、實驗流程或波形圖時，容易忽略關鍵條件。</p>
+              </article>
+              <article class="analysis-priority">
+                <strong>優先補強：</strong>
+                <ol>
+                  <li>數學應用題列式</li>
+                  <li>自然圖表與實驗判讀</li>
+                  <li>跨章節整合題</li>
+                </ol>
               </article>
               <div class="blur-lock" id="analysisLock">
                 <img src="assets/icon-lock.png" width="697" height="977" alt="">
-                <span>填寫資料取得完整報告</span>
+                <span>請先完成測驗，解鎖初步分析。</span>
               </div>
             </div>
           </div>
