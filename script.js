@@ -1,4 +1,4 @@
-const questions = [
+const allQuestions = [
   {
     subject: "數學",
     text: "若函數 y = ax² + bx - 3 的圖形通過點 (1,0) 與 (3,0)，則下列何者正確？",
@@ -51,7 +51,8 @@ const questions = [
   }
 ];
 
-const stateKey = "xuyuan-junior-quiz-state";
+const stateKey = "xuyuan-junior-quiz-state-v3";
+const leadPostEndpoint = "https://docs.google.com/spreadsheets/d/1VAUzWG4O6FF6liKJd_h_GZItTSeUQXRIdesS3ziK-3M/edit?usp=sharing";
 let quizState = loadQuizState();
 let reviewIndex = 0;
 
@@ -63,48 +64,126 @@ const quizProgress = document.querySelector("#quizProgress");
 const progressText = document.querySelector("#progressText");
 const prevQuestion = document.querySelector("#prevQuestion");
 const nextQuestion = document.querySelector("#nextQuestion");
+const subjectTabs = Array.from(document.querySelectorAll(".subject-tabs .subject"));
 const leadForm = document.querySelector("#leadForm");
 const submitLead = document.querySelector("#submitLead");
 const successCard = document.querySelector("#successCard");
 const analysisLock = document.querySelector("#analysisLock");
+const analysisEyebrow = document.querySelector("#analysisEyebrow");
+const analysisTitle = document.querySelector("#analysis-title");
+const analysisPrompt = document.querySelector("#analysisPrompt");
+const analysisPendingCopy = document.querySelector("#analysisPendingCopy");
+const teacherCardTitle = document.querySelector("#teacherCardTitle");
+const teacherIntro = document.querySelector("#teacherIntro");
+
+function createInitialState() {
+  return {
+    filter: "all",
+    indexByFilter: {
+      all: 0,
+      數學: 0,
+      自然: 0
+    },
+    answersByFilter: {
+      all: {},
+      數學: {},
+      自然: {}
+    },
+    completedFilters: []
+  };
+}
 
 function loadQuizState() {
   try {
     const saved = JSON.parse(localStorage.getItem(stateKey));
-    if (saved && Number.isInteger(saved.index) && Array.isArray(saved.answers)) {
+    if (saved && saved.indexByFilter && saved.answersByFilter) {
       return {
-        index: Math.min(Math.max(saved.index, 0), questions.length - 1),
-        answers: saved.answers
+        ...createInitialState(),
+        ...saved
       };
     }
   } catch (_error) {
     localStorage.removeItem(stateKey);
   }
 
-  return { index: 0, answers: [] };
+  return createInitialState();
 }
 
 function saveQuizState() {
   localStorage.setItem(stateKey, JSON.stringify(quizState));
 }
 
-function renderQuestion() {
-  const current = questions[quizState.index];
-  const currentNumber = quizState.index + 1;
-  const progress = Math.round((currentNumber / questions.length) * 100);
+function getQuestions() {
+  if (quizState.filter === "all") return allQuestions;
+  return allQuestions.filter((question) => question.subject === quizState.filter);
+}
 
+function getCurrentIndex() {
+  const questions = getQuestions();
+  const savedIndex = quizState.indexByFilter[quizState.filter] || 0;
+  return Math.min(Math.max(savedIndex, 0), Math.max(questions.length - 1, 0));
+}
+
+function getAnswerKey(index) {
+  const question = getQuestions()[index];
+  return quizState.filter === "all" ? String(allQuestions.indexOf(question)) : String(index);
+}
+
+function getCurrentAnswers() {
+  return quizState.answersByFilter[quizState.filter] || {};
+}
+
+function isCurrentQuizComplete() {
+  const questions = getQuestions();
+  const answers = getCurrentAnswers();
+  return questions.length > 0 && questions.every((_question, index) => answers[getAnswerKey(index)]);
+}
+
+function updateAnalysisState(forceComplete = false) {
+  const completed = forceComplete || quizState.completedFilters.length > 0;
+  document.querySelector("#analysis-section")?.classList.toggle("is-complete", completed);
+
+  if (completed) {
+    analysisEyebrow.textContent = "初步分析完成";
+    analysisTitle.textContent = "孩子目前較需要加強：";
+    analysisPendingCopy.hidden = true;
+    analysisPrompt.hidden = true;
+    teacherCardTitle.textContent = "初步分析完成";
+    teacherIntro.hidden = false;
+    analysisLock.classList.add("is-unlocked");
+    return;
+  }
+
+  analysisEyebrow.textContent = "尚未完成測驗";
+  analysisTitle.textContent = "完成測驗後解鎖初步分析";
+  analysisPendingCopy.hidden = false;
+  analysisPrompt.hidden = false;
+  teacherCardTitle.textContent = "尚未完成測驗";
+  teacherIntro.hidden = true;
+  analysisLock.classList.remove("is-unlocked");
+}
+
+function renderQuestion() {
+  const questions = getQuestions();
+  const currentIndex = getCurrentIndex();
+  const current = questions[currentIndex];
+  const currentNumber = currentIndex + 1;
+  const progress = Math.round((currentNumber / questions.length) * 100);
+  const answers = getCurrentAnswers();
+
+  quizState.indexByFilter[quizState.filter] = currentIndex;
   questionText.textContent = current.text;
-  quizCounter.textContent = `第${currentNumber}題 / 共10題`;
-  quizSubject.textContent = current.subject;
+  quizCounter.textContent = `第${currentNumber}題 / 共${questions.length}題`;
+  quizSubject.textContent = quizState.filter === "all" ? current.subject : quizState.filter;
   quizProgress.value = progress;
   quizProgress.textContent = `${progress}%`;
   progressText.textContent = `${progress}%`;
-  prevQuestion.disabled = quizState.index === 0;
-  nextQuestion.textContent = quizState.index === questions.length - 1 ? "送出並查看分析" : "下一題";
+  prevQuestion.disabled = currentIndex === 0;
+  nextQuestion.textContent = currentIndex === questions.length - 1 ? "送出並查看分析" : "下一題";
 
   optionsEl.innerHTML = "";
   current.options.forEach((option, optionIndex) => {
-    const id = `question-${quizState.index}-option-${optionIndex}`;
+    const id = `question-${quizState.filter}-${currentIndex}-option-${optionIndex}`;
     const label = document.createElement("label");
     label.className = "option";
     label.setAttribute("for", id);
@@ -114,9 +193,9 @@ function renderQuestion() {
     input.name = "answer";
     input.id = id;
     input.value = option;
-    input.checked = quizState.answers[quizState.index] === option;
+    input.checked = answers[getAnswerKey(currentIndex)] === option;
     input.addEventListener("change", () => {
-      quizState.answers[quizState.index] = option;
+      quizState.answersByFilter[quizState.filter][getAnswerKey(currentIndex)] = option;
       saveQuizState();
     });
 
@@ -125,29 +204,74 @@ function renderQuestion() {
     label.append(input, span);
     optionsEl.append(label);
   });
+
+  updateAnalysisState();
+}
+
+function setSubjectFilter(filter) {
+  quizState.filter = filter;
+  subjectTabs.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.filter === filter);
+  });
+  saveQuizState();
+  renderQuestion();
 }
 
 function goToQuestion(direction) {
-  if (direction > 0 && !quizState.answers[quizState.index]) {
+  const questions = getQuestions();
+  const currentIndex = getCurrentIndex();
+  const answers = getCurrentAnswers();
+
+  if (direction > 0 && !answers[getAnswerKey(currentIndex)]) {
     const firstOption = optionsEl.querySelector(".option");
     firstOption.classList.add("field-error");
     setTimeout(() => firstOption.classList.remove("field-error"), 700);
     return;
   }
 
-  if (quizState.index === questions.length - 1 && direction > 0) {
-    unlockAnalysis();
+  if (currentIndex === questions.length - 1 && direction > 0) {
+    if (!quizState.completedFilters.includes(quizState.filter)) {
+      quizState.completedFilters.push(quizState.filter);
+    }
+    saveQuizState();
+    updateAnalysisState(true);
     document.querySelector("#analysis-section").scrollIntoView({ behavior: "smooth" });
     return;
   }
 
-  quizState.index = Math.min(Math.max(quizState.index + direction, 0), questions.length - 1);
+  quizState.indexByFilter[quizState.filter] = Math.min(Math.max(currentIndex + direction, 0), questions.length - 1);
   saveQuizState();
   renderQuestion();
 }
 
-function unlockAnalysis() {
-  analysisLock.classList.add("is-unlocked");
+function collectLeadPayload() {
+  const formData = new FormData(leadForm);
+  const payload = {
+    submittedAt: new Date().toISOString(),
+    quizMode: quizState.filter,
+    quizCompleted: isCurrentQuizComplete(),
+    answers: quizState.answersByFilter,
+    completedFilters: quizState.completedFilters
+  };
+
+  formData.forEach((value, key) => {
+    payload[key] = value;
+  });
+
+  return payload;
+}
+
+async function postLeadPayload(payload) {
+  const body = new FormData();
+  Object.entries(payload).forEach(([key, value]) => {
+    body.append(key, typeof value === "string" ? value : JSON.stringify(value));
+  });
+
+  await fetch(leadPostEndpoint, {
+    method: "POST",
+    mode: "no-cors",
+    body
+  });
 }
 
 function validateForm(form) {
@@ -172,20 +296,29 @@ function validateForm(form) {
   return valid;
 }
 
-function submitLeadForm(event) {
+async function submitLeadForm(event) {
   event.preventDefault();
 
   if (!validateForm(leadForm)) return;
 
-  Array.from(leadForm.elements).forEach((field) => {
-    if ("disabled" in field) field.disabled = true;
-  });
+  submitLead.disabled = true;
+  submitLead.textContent = "送出中...";
 
-  submitLead.textContent = "已送出";
-  submitLead.classList.add("is-sent");
-  successCard.hidden = false;
-  unlockAnalysis();
-  successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+  try {
+    await postLeadPayload(collectLeadPayload());
+    Array.from(leadForm.elements).forEach((field) => {
+      if ("disabled" in field) field.disabled = true;
+    });
+
+    submitLead.textContent = "已送出";
+    submitLead.classList.add("is-sent");
+    successCard.hidden = false;
+    updateAnalysisState(true);
+    successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+  } catch (_error) {
+    submitLead.disabled = false;
+    submitLead.textContent = "送出失敗，請再試一次";
+  }
 }
 
 function setupScrollButtons() {
@@ -195,6 +328,13 @@ function setupScrollButtons() {
       if (target) target.scrollIntoView({ behavior: "smooth" });
     });
   });
+}
+
+function setupSubjectTabs() {
+  subjectTabs.forEach((button) => {
+    button.addEventListener("click", () => setSubjectFilter(button.dataset.filter || "all"));
+  });
+  setSubjectFilter(quizState.filter || "all");
 }
 
 function setupReveal() {
@@ -262,4 +402,4 @@ setupScrollButtons();
 setupReveal();
 setupBookTabs();
 setupTestimonials();
-renderQuestion();
+setupSubjectTabs();
