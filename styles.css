@@ -193,6 +193,7 @@ h2 {
   grid-template-columns: 0.8fr 1.2fr;
   gap: 56px;
   align-items: center;
+  min-width: 0;
 }
 
 .eyebrow {
@@ -239,6 +240,7 @@ h2 {
   font-size: 30px;
   font-weight: 800;
   box-shadow: var(--soft-shadow);
+  white-space: normal;
 }
 
 .subject img {
@@ -291,11 +293,14 @@ progress::-moz-progress-bar {
 }
 
 .quiz-card {
+  width: 100%;
+  min-width: 0;
   padding: 30px 34px;
   border-radius: 8px;
   background: #fff;
   color: var(--ink);
   box-shadow: var(--shadow);
+  overflow: visible;
 }
 
 .quiz-topline {
@@ -322,11 +327,31 @@ progress::-moz-progress-bar {
   min-height: 72px;
   font-size: 21px;
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+}
+
+.question-wrap {
+  max-width: 100%;
+}
+
+.question-wrap img,
+.quiz-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .options {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
+  min-width: 0;
 }
 
 .option {
@@ -339,6 +364,13 @@ progress::-moz-progress-bar {
   border-radius: 6px;
   background: #fff;
   font-weight: 700;
+  white-space: normal;
+  min-width: 0;
+}
+
+.option span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .option:has(input:checked) {
@@ -430,6 +462,19 @@ progress::-moz-progress-bar {
   padding: 22px;
 }
 
+.analysis-pending-copy,
+.analysis-lock-copy {
+  margin: 0 0 14px;
+  color: var(--green-900);
+  font-weight: 850;
+  line-height: 1.55;
+}
+
+.analysis-lock-copy {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+
 .analysis-list ul,
 .benefit-list {
   margin: 0;
@@ -490,13 +535,13 @@ progress::-moz-progress-bar {
   border-radius: 50%;
   background:
     radial-gradient(circle, transparent 0 19%, rgba(33, 83, 45, 0.12) 20% 20.5%, transparent 21% 39%, rgba(33, 83, 45, 0.12) 40% 40.5%, transparent 41% 59%, rgba(33, 83, 45, 0.12) 60% 60.5%, transparent 61% 79%, rgba(33, 83, 45, 0.12) 80% 80.5%, transparent 81%),
-    conic-gradient(from 18deg, rgba(33, 83, 45, 0.12) 0 1deg, transparent 1deg 72deg, rgba(33, 83, 45, 0.12) 72deg 73deg, transparent 73deg 144deg, rgba(33, 83, 45, 0.12) 144deg 145deg, transparent 145deg 216deg, rgba(33, 83, 45, 0.12) 216deg 217deg, transparent 217deg 288deg, rgba(33, 83, 45, 0.12) 288deg 289deg, transparent 289deg);
+    conic-gradient(from 0deg, rgba(33, 83, 45, 0.12) 0 1deg, transparent 1deg 60deg, rgba(33, 83, 45, 0.12) 60deg 61deg, transparent 61deg 120deg, rgba(33, 83, 45, 0.12) 120deg 121deg, transparent 121deg 180deg, rgba(33, 83, 45, 0.12) 180deg 181deg, transparent 181deg 240deg, rgba(33, 83, 45, 0.12) 240deg 241deg, transparent 241deg 300deg, rgba(33, 83, 45, 0.12) 300deg 301deg, transparent 301deg);
 }
 
 .radar-shape {
   position: absolute;
-  inset: 22%;
-  clip-path: polygon(50% 0, 92% 32%, 76% 92%, 18% 83%, 0 30%);
+  inset: 19%;
+  clip-path: polygon(50% 0, 88% 20%, 82% 72%, 50% 92%, 18% 72%, 12% 20%);
   background: rgba(61, 164, 83, 0.58);
   border: 2px solid rgba(31, 129, 58, 0.55);
 }
@@ -513,6 +558,11 @@ progress::-moz-progress-bar {
 .axis-bottom-right { right: 15%; bottom: 10%; }
 .axis-bottom-left { left: 14%; bottom: 10%; }
 .axis-left { top: 42%; left: 0; }
+.axis-upper-right { top: 18%; right: 0; }
+.axis-lower-right { right: 0; bottom: 21%; }
+.axis-bottom { bottom: -4px; left: 50%; transform: translateX(-50%); }
+.axis-lower-left { left: 0; bottom: 21%; }
+.axis-upper-left { top: 18%; left: 0; }
 
 .score {
   display: block;
@@ -535,6 +585,12 @@ progress::-moz-progress-bar {
   background: #fffdf6;
 }
 
+.teacher-intro {
+  margin: -4px 0 14px;
+  color: var(--green-900);
+  font-weight: 900;
+}
+
 .teacher-card article strong {
   display: block;
   margin: 7px 0;
@@ -547,6 +603,18 @@ progress::-moz-progress-bar {
   color: var(--muted);
   font-weight: 750;
   line-height: 1.45;
+}
+
+.analysis-priority ol {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.analysis-section:not(.is-complete) .analysis-result,
+.analysis-section:not(.is-complete) .analysis-priority {
+  visibility: hidden;
 }
 
 .subject-chip {
@@ -1178,6 +1246,21 @@ select:focus {
 
   .quiz-section {
     padding: 42px 0;
+    overflow: visible;
+  }
+
+  .quiz-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .quiz-copy,
+  .quiz-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .subject-tabs,
@@ -1189,22 +1272,67 @@ select:focus {
     flex-wrap: wrap;
   }
 
+  .subject-tabs {
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
   .subject {
     min-width: 0;
-    flex: 1;
-    font-size: 24px;
+    flex: 1 1 100%;
+    font-size: 22px;
+    line-height: 1.2;
   }
 
   .quiz-card {
     padding: 22px 18px;
   }
 
+  .quiz-topline,
+  .quiz-actions {
+    align-items: stretch;
+  }
+
+  .quiz-topline {
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .quiz-card h3 {
     font-size: 18px;
+    min-height: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .option {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .quiz-actions {
+    flex-direction: column;
+  }
+
+  .quiz-actions button {
+    width: 100%;
   }
 
   .analysis-grid {
     gap: 14px;
+  }
+
+  .radar {
+    width: min(280px, 100%);
+  }
+
+  .axis {
+    font-size: 12px;
   }
 
   .resource-shell,
