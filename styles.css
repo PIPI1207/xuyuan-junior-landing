@@ -369,6 +369,7 @@ progress::-moz-progress-bar {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
   min-height: 46px;
   padding: 10px 12px;
   border: 1px solid #d9dfd8;
@@ -379,9 +380,20 @@ progress::-moz-progress-bar {
   min-width: 0;
 }
 
+.option input {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+}
+
 .option span {
+  flex: 1 1 auto;
   min-width: 0;
+  max-width: 100%;
   overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
 }
 
 .option:has(input:checked) {
