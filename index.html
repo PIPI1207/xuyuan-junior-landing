@@ -198,17 +198,23 @@
                 <h3>暑假 30 堂全科衝刺計畫</h3>
               </div>
               <p>暑假讀書計畫預覽</p>
-              <div class="plan-tabs">
-                <button class="is-active" type="button">數學</button>
-                <button type="button">英文</button>
-                <button type="button">自然</button>
+              <div class="plan-tabs" aria-label="暑假讀書計畫科目">
+                <button class="is-active" type="button" data-plan="math">數學</button>
+                <button type="button" data-plan="science">自然</button>
+                <button type="button" data-plan="other">其他科目</button>
               </div>
-              <div class="plan-table" aria-label="暑假讀書計畫預覽">
-                <div>週次</div><div>主題重點</div><div>W1</div><div>W2</div><div>W3</div><div>W4</div>
-                <div>W1</div><div>一次函數與圖形</div><div>✓</div><div>✓</div><div></div><div></div>
-                <div>W2</div><div>二次函數應用</div><div></div><div>✓</div><div>✓</div><div></div>
-                <div>W3</div><div>幾何圖形與比例</div><div></div><div></div><div>✓</div><div>✓</div>
-                <div>W4</div><div>會考整合題</div><div></div><div></div><div></div><div class="plan-more">完整8月計畫<br>解鎖完整查閱</div>
+              <div class="plan-preview" id="planPreview">
+                <div class="plan-table" id="planTable" aria-label="暑假讀書計畫預覽">
+                  <div>週次</div><div>主題重點</div><div>W1</div><div>W2</div><div>W3</div><div>W4</div>
+                  <div>W1</div><div>一次函數與圖形</div><div>✓</div><div>✓</div><div></div><div></div>
+                  <div>W2</div><div>二次函數應用</div><div></div><div>✓</div><div>✓</div><div></div>
+                  <div>W3</div><div>幾何圖形與比例</div><div></div><div></div><div>✓</div><div>✓</div>
+                  <div>W4</div><div>會考整合題</div><div></div><div></div><div></div><div class="plan-more">完整8月計畫<br>解鎖完整查閱</div>
+                </div>
+                <div class="plan-lock" id="planLock" hidden>
+                  <strong>其他科目完整規劃</strong>
+                  <span>送出資料後，由老師依孩子版本與程度提供</span>
+                </div>
               </div>
             </div>
           </div>
