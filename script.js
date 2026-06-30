@@ -371,7 +371,7 @@ function renderQuestion() {
   quizProgress.textContent = `${progress}%`;
   progressText.textContent = `${progress}%`;
   prevQuestion.disabled = currentIndex === 0;
-  nextQuestion.textContent = currentIndex === questions.length - 1 ? "送出並查看分析" : "下一題";
+  nextQuestion.textContent = currentIndex === questions.length - 1 && quizState.filter === "all" ? "送出並查看分析" : "下一題";
 
   optionsEl.innerHTML = "";
   current.options.forEach((option, optionIndex) => {
@@ -422,12 +422,17 @@ function goToQuestion(direction) {
   }
 
   if (currentIndex === questions.length - 1 && direction > 0) {
-    if (!quizState.completedFilters.includes(quizState.filter)) {
-      quizState.completedFilters.push(quizState.filter);
+    if (quizState.filter === "all" && isCurrentQuizComplete()) {
+      if (!quizState.completedFilters.includes(quizState.filter)) {
+        quizState.completedFilters.push(quizState.filter);
+      }
+      saveQuizState();
+      updateAnalysisState(true);
+      document.querySelector("#analysis-section").scrollIntoView({ behavior: "smooth" });
+      return;
     }
+
     saveQuizState();
-    updateAnalysisState(true);
-    document.querySelector("#analysis-section").scrollIntoView({ behavior: "smooth" });
     return;
   }
 
